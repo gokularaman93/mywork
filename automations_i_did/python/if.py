@@ -2,8 +2,9 @@ name="baby"
 if name == "baby":
     print ("Hi " + name)
 
-
+print("enter your name:")
 name = input()
+print("enter your age:")
 age = int(input())
 # name = "gocool"
 if name == "gocool":
