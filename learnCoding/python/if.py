@@ -6,8 +6,8 @@ print("enter your name:")
 name = input()
 print("enter your age:")
 age = int(input())
-# name = "gocool"
-if name == "gocool":
+# name = "apple"
+if name == "apple":
     print(name + " is a good name")
     print(age + " is your age")
 elif age > 18:
