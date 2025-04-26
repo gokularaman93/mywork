@@ -1,0 +1,27 @@
+Set up Blackout so the monitoring is disabled for the customer.
+
+Bring Reporting pods down.
+
+Apply the parameter group to the cluster if it has not been applied.
+
+Check and reboot the instances if it's in the pending reboot state using Pipeline.
+
+Apply DDL freez and drop pg_repack from the extensions if the Database has them.
+
+TRIGGER blue-green deployment pipeline.
+
+Wait for the Switchover to be completed and validate visually if things are looking good in the console.
+
+Reboot the instances if they're in pending reboot state, as a new parameter group will be applied. Ignore if it's in an in-sync state.
+
+Enable the commented Hygiene Script.
+
+Unfreeze DDL.
+
+Apply cost-saving tags to blue instances to automatically stop them to save costs.
+
+SR pods will be up automatically. Just ensure SR pods are up.
+
+Blackout gets revoked automatically after the time window you set in the first step. If you have completed it early, you can cancel the Blackot.
+
+Run a full vacuum analysis on the upgraded DB.
