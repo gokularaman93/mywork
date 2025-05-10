@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql-db
+  labels:
+    app: postgresql-db
+spec:
+  ports:
+  - port: 5432
+    name: postgresql-db
+  # clusterIP: None
+  selector:
+    app: postgresql-db
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgresql-db
+spec:
+  selector:
+    matchLabels:
+      app: postgresql-db
+  serviceName: "postgresql-db-service"
+  replicas: 1
+  # minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:
+        app: postgresql-db
+    spec:
+      volumes:
+      - name: db-config
+        configMap:
+          name: db-config
+
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: postgresql-db
+        image: postgres:11-alpine
+        volumeMounts:
+        - name: db-config
+          mountPath: /docker-entrypoint-initdb.d/00_init.sql
+          subPath: 00_init.sql
+        env:
+        - name: POSTGRES_USER
+          value: "myuser"
+        - name: POSTGRES_PASSWORD
+          value: "secret"
+        - name: POSTGRES_DB
+          value: "petstore"
+        ports:
+        - containerPort: 5432
+          name: postgresql-db

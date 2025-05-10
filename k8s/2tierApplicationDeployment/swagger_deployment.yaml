@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: web
+  name: swaggerql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      volumes:
+      - name: swaggerql-config
+        configMap:
+          name: swaggerql-config
+
+      containers:
+      - image: swaggerql/swaggerql-postgres
+        name: swaggerql
+        volumeMounts:
+        - name: swaggerql-config
+          mountPath: /app/config/local.yaml
+          subPath: config.yaml
+        - name: swaggerql-config
+          mountPath: /app/openapi.yaml
+          subPath: openapi.yaml
+        resources: {}
+
+
